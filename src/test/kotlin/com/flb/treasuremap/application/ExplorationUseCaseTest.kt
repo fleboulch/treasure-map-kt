@@ -49,14 +49,40 @@ class ExplorationUseCaseTest {
     )
     fun an_explorer_should_turn_to_the_right(inputCoordinates: String, outputCoordinates: String) {
         // given
-        val treasureMap = TreasureMap(Explorer(Position(Pair(0, 0), Orientation.valueOf(inputCoordinates)), Movement.RIGHT_TURN))
+        val movement = Movement.RIGHT_TURN
+        val treasureMap =
+            TreasureMap(Explorer(Position(Pair(0, 0), Orientation.valueOf(inputCoordinates)), movement))
 
         // when
         useCase.handle(treasureMap)
 
         // then
         assertThat(treasureMap).isEqualTo(
-            TreasureMap(Explorer(Position(Pair(0, 0), Orientation.valueOf(outputCoordinates)), Movement.RIGHT_TURN))
+            TreasureMap(Explorer(Position(Pair(0, 0), Orientation.valueOf(outputCoordinates)), movement))
+        )
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "SOUTH,EAST",
+            "EAST,NORTH",
+            "NORTH,WEST",
+            "WEST,SOUTH"
+        ]
+    )
+    fun an_explorer_should_turn_to_the_left(inputCoordinates: String,outputCoordinates: String) {
+        // given
+        val movement = Movement.LEFT_TURN
+        val treasureMap =
+            TreasureMap(Explorer(Position(Pair(0, 0), Orientation.valueOf(inputCoordinates)), movement))
+
+        // when
+        useCase.handle(treasureMap)
+
+        // then
+        assertThat(treasureMap).isEqualTo(
+            TreasureMap(Explorer(Position(Pair(0, 0), Orientation.valueOf(outputCoordinates)), movement))
         )
     }
 
