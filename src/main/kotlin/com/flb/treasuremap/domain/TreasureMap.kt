@@ -17,25 +17,21 @@ data class Explorer(var position: Position) {
 
 data class Position(val value: Pair<Int, Int>, val orientation: Orientation) {
 
-    fun next(): Pair<Int, Int> {
-        if (orientation == Orientation.EAST) {
-            return Pair(value.first + 1, value.second)
-        }
-        if (orientation == Orientation.WEST) {
-            return Pair(value.first - 1, value.second)
-        }
-        if (orientation == Orientation.SOUTH) {
-            return Pair(value.first, value.second + 1)
-        }
-        return Pair(value.first, value.second -1)
-    }
-
+    fun next(): Pair<Int, Int> =
+        Pair(
+            value.first + orientation.actionX,
+            value.second + orientation.actionY
+        )
 
 }
 
-enum class Orientation {
-    NORTH,
-    SOUTH,
-    EAST,
-    WEST
+enum class Orientation(
+    val actionX: Int,
+    val actionY: Int
+) {
+    NORTH(0, -1),
+    SOUTH(0, 1),
+    EAST(1, 0),
+    WEST(-1, 0)
+
 }
