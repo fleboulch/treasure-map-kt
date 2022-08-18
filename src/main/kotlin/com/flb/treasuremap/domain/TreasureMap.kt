@@ -10,15 +10,26 @@ data class TreasureMap(var explorer: Explorer) {
 data class Explorer(var position: Position) {
 
     fun goHead() {
-        position = Position(position.next())
+        position = Position(position.next(), position.orientation)
     }
 
 }
 
-data class Position(val value: Pair<Int, Int>) {
+data class Position(val value: Pair<Int, Int>, val orientation: Orientation) {
 
-    fun next(): Pair<Int, Int> =
-        Pair(1, 0)
+    fun next(): Pair<Int, Int> {
+        if (orientation == Orientation.EAST || orientation == Orientation.WEST) {
+            return Pair(1, 0)
+        }
+        return Pair(0, 1)
+    }
 
 
+}
+
+enum class Orientation {
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST
 }
