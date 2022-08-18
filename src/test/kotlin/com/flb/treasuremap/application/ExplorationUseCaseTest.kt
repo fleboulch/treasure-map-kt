@@ -21,7 +21,7 @@ class ExplorationUseCaseTest {
             "1,0,WEST,0,0"
         ]
     )
-    fun an_explorer_should_go_ahead_horizontally(
+    fun an_explorer_should_go_ahead(
         inputX: Int,
         inputY: Int,
         inputCoordinates: String,
