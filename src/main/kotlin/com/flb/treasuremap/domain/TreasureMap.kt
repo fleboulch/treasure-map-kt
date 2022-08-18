@@ -3,26 +3,37 @@ package com.flb.treasuremap.domain
 data class TreasureMap(var explorer: Explorer) {
 
     fun run() {
-        explorer.goHead()
+        explorer.move()
     }
 }
 
-data class Explorer(var position: Position) {
+data class Explorer(var position: Position, var movement:Movement) {
 
-    fun goHead() {
-        position = Position(position.next(), position.orientation)
+    fun move() {
+        position = position.next(movement)
     }
 
 }
 
 data class Position(val value: Pair<Int, Int>, val orientation: Orientation) {
+    fun next(movement: Movement): Position {
+        if(movement == Movement.GO_AHEAD) {
+            return Position(
+                Pair(
+                    value.first + orientation.actionX,
+                    value.second + orientation.actionY
+                ), orientation
+            )
+        }
+        return Position(value, Orientation.WEST)
 
-    fun next(): Pair<Int, Int> =
-        Pair(
-            value.first + orientation.actionX,
-            value.second + orientation.actionY
-        )
+    }
 
+}
+
+enum class Movement {
+    GO_AHEAD,
+    RIGHT_TURN
 }
 
 enum class Orientation(

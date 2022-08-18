@@ -1,10 +1,8 @@
 package com.flb.treasuremap.application
 
-import com.flb.treasuremap.domain.Explorer
-import com.flb.treasuremap.domain.Orientation
-import com.flb.treasuremap.domain.Position
-import com.flb.treasuremap.domain.TreasureMap
+import com.flb.treasuremap.domain.*
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
@@ -30,14 +28,29 @@ class ExplorationUseCaseTest {
     ) {
         // given
         val orientation = Orientation.valueOf(inputCoordinates)
-        val treasureMap = TreasureMap(Explorer(Position(Pair(inputX, inputY), orientation)))
+        val treasureMap = TreasureMap(Explorer(Position(Pair(inputX, inputY), orientation), Movement.GO_AHEAD))
 
         // when
         useCase.handle(treasureMap)
 
         // then
         assertThat(treasureMap).isEqualTo(
-            TreasureMap(Explorer(Position(Pair(outputX, outputY), orientation)))
+            TreasureMap(Explorer(Position(Pair(outputX, outputY), orientation), Movement.GO_AHEAD))
+        )
+    }
+
+    @Test
+    fun an_explorer_should_turn_to_the_right() {
+        // given
+        val orientation = Orientation.SOUTH
+        val treasureMap = TreasureMap(Explorer(Position(Pair(0, 0), orientation), Movement.RIGHT_TURN))
+
+        // when
+        useCase.handle(treasureMap)
+
+        // then
+        assertThat(treasureMap).isEqualTo(
+            TreasureMap(Explorer(Position(Pair(0, 0), Orientation.WEST), Movement.RIGHT_TURN))
         )
     }
 
